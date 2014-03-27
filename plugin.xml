@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+           id="com.dextrys.cordova.extgap"
+      version="0.1.2">
+
+    <name>ExtGapToolkits</name>
+    <description>com.dextrys.cordova.extgap.ExtGapToolkits</description>
+    <license>Apache 2.0</license>
+    <keywords>cordova,ExtGapToolkits</keywords>
+    <repo>https://github.com/minvt/ext-gap-toolkits.git</repo>
+    <issue></issue>
+
+    <js-module src="www/ExtGapToolkits.js" name="ExtGapToolkits">
+        <merges target="navigator.ExtGapToolkits" />
+    </js-module>
+
+
+    <!-- android -->
+    <platform name="android">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="ExtGapToolkits">
+                <param name="android-package" value="com.dextrys.cordova.extgap.ExtGapToolkits"/>
+            </feature>
+        </config-file>
+
+        <source-file src="src/android/ExtGapToolkits.java" target-dir="src/com/dextrys/cordova/extgap" />
+
+        <!-- android specific notification apis -->
+		<!--
+        <js-module src="www/android/notification.js" name="notification_android">
+            <merges target="navigator.notification" />
+        </js-module>
+		-->
+
+    </platform>
+    
+  
+
+    <!-- ios -->
+	
+    <platform name="ios">
+        <config-file target="config.xml" parent="/*">
+            <feature name="ExtGapToolkits">
+                <param name="ios-package" value="CDVExtGapToolkits"/>
+            </feature>
+        </config-file>
+        <header-file src="src/ios/CDVExtGapToolkits.h" />
+	    <source-file src="src/ios/CDVExtGapToolkits.m" />
+    </platform>
+	
+   
+
+</plugin>
