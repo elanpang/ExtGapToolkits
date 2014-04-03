@@ -34,7 +34,7 @@
 
 - (void)saveImage:(UIImage*)image to:(NSString*)path
 {
-	//保存图片 2种获取路径都可以
+	//淇濆瓨鍥剧墖 2绉嶈幏鍙栬矾寰勯兘鍙互
 	//NSArray*paths=NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 	//NSString*documentsDirectory=[paths objectAtIndex:0];  
 	//NSString*aPath=[documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.jpg",@"test"]]; 
@@ -56,10 +56,11 @@
 //String src,String dest,int x,int y,int w,int h
 - (void)clipImage:(CDVInvokedUrlCommand*)command
 {
-    int x=[command argumentAtIndex:2];
-    int y=[command argumentAtIndex:3];
-    int w=[command argumentAtIndex:4];
-    int h=[command argumentAtIndex:5];
+    int x=[(NSString*)[command argumentAtIndex:2] intValue];
+    //NSString *tmpStr=[command argumentAtIndex:2];
+    int y=[(NSString*)[command argumentAtIndex:3] intValue];
+    int w=[(NSString*)[command argumentAtIndex:4] intValue];
+    int h=[(NSString*)[command argumentAtIndex:5] intValue];
     UIImage *image=[self loadImageFrom:[command argumentAtIndex:0]];
     CGImageRef subImageRef = CGImageCreateWithImageInRect(image.CGImage, CGRectMake(x,y,w,h));  
     CGRect smallBounds = CGRectMake(0, 0, CGImageGetWidth(subImageRef), CGImageGetHeight(subImageRef));  
@@ -75,10 +76,10 @@
 //String src,String dest,int sample,int quality
 - (void)resizeImage:(CDVInvokedUrlCommand*)command
 {
-	int sample=[command argumentAtIndex:2];
+	int sample=[(NSString*)[command argumentAtIndex:2] intValue];
 	UIImage *image=[self loadImageFrom:[command argumentAtIndex:0]]; 
-	UIGraphicsBeginImageContext(CGSizeMake(image.size.width / sample, image.size.height / sample);
-	[image drawInRect:CGRectMake(0, 0, image.size.width * scaleSize, image.size.height * scaleSize)];
+	UIGraphicsBeginImageContext(CGSizeMake(image.size.width / sample, image.size.height / sample));
+	[image drawInRect:CGRectMake(0, 0, image.size.width * sample, image.size.height * sample)];
 	UIImage *scaledImage = UIGraphicsGetImageFromCurrentImageContext();
 	UIGraphicsEndImageContext();
 	[self saveImage:scaledImage to:[command argumentAtIndex:1]];
@@ -106,10 +107,11 @@
     NSString* base64Str=[NSString stringWithUTF8String:[data bytes]];
     CDVPluginResult* pluginResult = nil;
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:base64Str];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     //return [NSString stringWithUTF8String:[data bytes]];
 }
 
-String targetPath,String b64String
+//String targetPath,String b64String
 - (void)decodeBase642File:(CDVInvokedUrlCommand*)command
 {
     NSData* decodedData = [[NSData alloc] initWithBase64EncodedString:[command argumentAtIndex:1] options:0]; 
